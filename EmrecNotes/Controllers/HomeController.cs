@@ -1,11 +1,25 @@
+using System;
 using System.Diagnostics;
-using EmrecNotes.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using EmrecNotes.Data;
+using EmrecNotes.Models;
 
 namespace EmrecNotes.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly EmrecNotesContext _context;
+        public HomeController(EmrecNotesContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -19,9 +33,10 @@ namespace EmrecNotes.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string password)
+        public async Task<IActionResult> Login(Account user)
         {
-            Console.WriteLine(password);
+            var account = await _context.Account.FirstOrDefaultAsync(a => a.Email == user.Email);
+            Console.WriteLine(account.UserName); 
             return View();
         }
 
