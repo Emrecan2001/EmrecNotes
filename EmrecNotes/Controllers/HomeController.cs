@@ -18,6 +18,13 @@ namespace EmrecNotes.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Login(string password)
+        {
+            Console.WriteLine(password);
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Register()
         {
