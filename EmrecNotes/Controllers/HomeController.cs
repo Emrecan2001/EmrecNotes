@@ -56,13 +56,23 @@ namespace EmrecNotes.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([Bind("Id,Email,UserName,PasswordHashed")]Account NewUser)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Console.WriteLine("User valid");
+                Console.WriteLine("User invalid");
                 return View();
             }
-            Console.WriteLine("User invalid");
-            return View();
+
+            // this returns true or false 
+            if (await _context.Account.AnyAsync(user => user.Email == NewUser.Email)){
+                Console.WriteLine("This email is already used");
+                return View();
+            };
+
+            await _context.Account.AddAsync(NewUser);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Login");
+            
         }
 
         public IActionResult Privacy()
