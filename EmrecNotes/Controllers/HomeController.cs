@@ -35,14 +35,33 @@ namespace EmrecNotes.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Account user)
         {
-            var account = await _context.Account.FirstOrDefaultAsync(a => a.Email == user.Email);
-            Console.WriteLine(account.UserName); 
-            return View();
+            var account = await _context.Account.FirstOrDefaultAsync(u => u.Email == user.Email);
+
+            if (account == null)
+            {
+                Console.WriteLine("Account not found!!"); // failed to join
+                return View();
+            }
+
+            return RedirectToAction("Index");
+
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([Bind("Id,Email,UserName,PasswordHashed")]Account NewUser)
+        {
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine("User valid");
+                return View();
+            }
+            Console.WriteLine("User invalid");
             return View();
         }
 
