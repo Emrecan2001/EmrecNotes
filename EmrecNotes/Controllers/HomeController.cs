@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EmrecNotes.Data;
 using EmrecNotes.Models;
+using BCrypt.Net;
 
 namespace EmrecNotes.Controllers
 {
@@ -35,15 +36,17 @@ namespace EmrecNotes.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Account user)
         {
+
             var account = await _context.Account.FirstOrDefaultAsync(u => u.Email == user.Email);
 
-            if (account == null)
-            {
-                Console.WriteLine("Account not found!!"); // failed to join
+            // check if user exist or if the password is matching (nonhashed password, hashedpassword) / it's going to turn hash and check
+            if (account == null || !BCrypt.Net.BCrypt.Verify(user.PasswordHashed, account.PasswordHashed))
+            {   
+                Console.WriteLine("no account or wrong password");
                 return View();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); // change it dashboard later
 
         }
 
@@ -67,6 +70,9 @@ namespace EmrecNotes.Controllers
                 Console.WriteLine("This email is already used");
                 return View();
             };
+
+            // hashing password
+            NewUser.PasswordHashed = BCrypt.Net.BCrypt.HashPassword(NewUser.PasswordHashed);
 
             await _context.Account.AddAsync(NewUser);
             await _context.SaveChangesAsync();
