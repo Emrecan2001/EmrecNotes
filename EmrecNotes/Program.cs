@@ -1,5 +1,6 @@
 using EmrecNotes.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,17 @@ builder.Services.AddControllersWithViews();
 // add database connection
 builder.Services.AddDbContext<EmrecNotesContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// activate cookie authentication service
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "BestCookieEver"; //Name of the cookie
+        options.LoginPath = "/home/Index"; // leads to this address when no cookies existing
+        options.AccessDeniedPath = "/home/Index"; // leads to this address if user has no authority
+
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // how long the cookie is valid
+    });
 
 var app = builder.Build();
 
@@ -23,6 +35,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
