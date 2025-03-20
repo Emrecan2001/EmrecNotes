@@ -16,8 +16,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.Cookie.Name = "BestCookieEver"; //Name of the cookie
-        options.LoginPath = "/home/Index"; // leads to this address when no cookies existing
-        options.AccessDeniedPath = "/home/Index"; // leads to this address if user has no authority
+        options.LoginPath = "/home/Login"; // leads to this address when no cookies existing
+        options.AccessDeniedPath = "/home/Login"; // leads to this address if user has no authority
 
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // how long the cookie is valid
     });

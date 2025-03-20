@@ -3,9 +3,12 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using EmrecNotes.Data;
 using EmrecNotes.Models;
 using BCrypt.Net;
@@ -46,7 +49,30 @@ namespace EmrecNotes.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index"); // change it dashboard later
+            // claims include users desired informations
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, account.UserName),
+                new Claim(ClaimTypes.Role, "Member")
+            };
+
+            // creating Identity
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Authentication Properties
+            var authProperties = new AuthenticationProperties
+            {
+                // when it's empty it uses default settings
+            };
+
+            // Login in with claim Identity
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            return RedirectToAction("Index", "Users");
 
         }
 
