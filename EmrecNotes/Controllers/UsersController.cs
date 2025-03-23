@@ -11,8 +11,8 @@ namespace EmrecNotes.Controllers
         {
             // pull cookies (demo)
             var userName = User.Identity.Name;
-            Console.WriteLine($"Welcome {userName}");
-            return View();
+
+            return View("Index", userName);
         }
     }
 }
