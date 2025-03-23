@@ -7,6 +7,7 @@ namespace EmrecNotes.Controllers
     [Authorize] //Only Authorizing users can access this controller otherwise they are returning back to LoginPath
     public class UsersController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             // pull cookies (demo)

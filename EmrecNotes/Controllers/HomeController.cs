@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using EmrecNotes.Data;
 using EmrecNotes.Models;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace EmrecNotes.Controllers
 {
@@ -53,7 +54,7 @@ namespace EmrecNotes.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, account.UserName),
-                new Claim(ClaimTypes.Role, "Member")
+                new Claim(ClaimTypes.Role, account.UserRole)
             };
 
             // creating Identity
@@ -85,6 +86,7 @@ namespace EmrecNotes.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([Bind("Id,Email,UserName,PasswordHashed")]Account NewUser)
         {
+
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("User invalid");
@@ -99,6 +101,8 @@ namespace EmrecNotes.Controllers
 
             // hashing password
             NewUser.PasswordHashed = BCrypt.Net.BCrypt.HashPassword(NewUser.PasswordHashed);
+
+            NewUser.UserRole = "Member";
 
             await _context.Account.AddAsync(NewUser);
             await _context.SaveChangesAsync();
