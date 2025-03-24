@@ -14,9 +14,10 @@ namespace EmrecNotes.Models
         [MaxLength(100000)] // contains max 100.000 letters
         public string? Content { get; set; }
 
-        //foreign key
+        // foreign key
         public int UserId { get; set; }
 
+        // Navigation Property
         [ForeignKey("UserId")]
         public Account User { get; set; }
     }
