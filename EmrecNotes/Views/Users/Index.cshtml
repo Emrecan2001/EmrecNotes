@@ -1,9 +1,17 @@
-﻿@model String
+﻿@model IEnumerable<EmrecNotes.Models.Note>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
 <div>
-	<h2>Welcome @Model</h2>
+	<h2>Your Notes</h2>
+	
+	@foreach(var item in Model){
+		<hr>
+		<h3>@Html.DisplayFor(title => item.Title)</h3>
+		<p>@Html.DisplayFor(content => item.Content)</p>
+		<br>
+	}
+
 </div>
