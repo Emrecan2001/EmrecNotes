@@ -54,7 +54,8 @@ namespace EmrecNotes.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, account.UserName),
-                new Claim(ClaimTypes.Role, account.UserRole)
+                new Claim(ClaimTypes.Role, account.UserRole),
+                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString())
             };
 
             // creating Identity
