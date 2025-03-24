@@ -10,6 +10,7 @@ namespace EmrecNotes.Data
         }
 
         public DbSet<EmrecNotes.Models.Account> Account { get; set; }
+        public DbSet<EmrecNotes.Models.Note> Note { get; set; }
 
         //connect Account model into Account table in database
     }
