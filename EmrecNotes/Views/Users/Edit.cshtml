@@ -1,0 +1,21 @@
+﻿@model EmrecNotes.Models.Note
+
+@{
+	ViewData["Title"] = "Edit Note";
+}
+
+<div>
+	<div>
+		<form action="edit" method="post">
+			<div>
+				<input id="title" name="Title" value="@Model.Title"></input>
+			</div>
+			<div>
+				<textarea style="resize : none;" id="content" name="Content" value="31" rows="30" cols="100">@Model.Content</textarea>
+			</div>
+			<div>
+				<button>Submit</button>
+			</div>
+		</form>
+	</div>
+</div>

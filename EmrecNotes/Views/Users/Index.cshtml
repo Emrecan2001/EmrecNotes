@@ -5,12 +5,19 @@
 }
 
 <div>
+	<a href="u/create">
+		<p>Create Note</p>
+	</a>
+</div>
+
+<div>
 	<h2>Your Notes</h2>
-	
+
 	@foreach(var item in Model){
 		<hr>
 		<h3>@Html.DisplayFor(title => item.Title)</h3>
 		<p>@Html.DisplayFor(content => item.Content)</p>
+		<a href="u/Edit/@Html.DisplayFor(id => item.Id)"><p>Edit</p></a>
 		<br>
 	}
 
