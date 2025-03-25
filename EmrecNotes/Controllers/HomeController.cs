@@ -37,6 +37,7 @@ namespace EmrecNotes.Controllers
             return View();
         }
 
+        //password bug fix that
         [HttpPost]
         public async Task<IActionResult> Login(Account user)
         {
