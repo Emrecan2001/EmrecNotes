@@ -56,25 +56,25 @@ namespace EmrecNotes.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("edit/{Id}")]
+        [Route("edit/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int Id)
+        public async Task<IActionResult> Edit(int id)
         {
             // return note with specific Id
-            return View(await _context.Note.FirstOrDefaultAsync(n => n.Id == Id));
+            return View(await _context.Note.FirstOrDefaultAsync(n => n.Id == id));
         }
 
-        // take a break and continue
-        [Route("edit/{Id}")]
+        // check this out later
+        [Route("edit/{id}")]
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, Note UpdatedNote)
+        public async Task<IActionResult> Edit(int id, Note UpdatedNote)
         {
+            var Note = await _context.Note.FirstOrDefaultAsync(n => n.Id == id);
 
-            var Note = await _context.Note.FirstOrDefaultAsync(n => n.Id == Id);
-
-            Console.WriteLine(Id);
-            Console.WriteLine(UpdatedNote.Title);
-            Console.WriteLine(UpdatedNote.Content);
+            if(Note == null)
+            {
+                return NotFound();
+            }
 
             Note.Title = UpdatedNote.Title;
             Note.Content = UpdatedNote.Content;
