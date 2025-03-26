@@ -17,7 +17,12 @@
 		<hr>
 		<h3>@Html.DisplayFor(title => item.Title)</h3>
 		<p>@Html.DisplayFor(content => item.Content)</p>
-		<a href="u/Edit/@Html.DisplayFor(id => item.Id)"><p>Edit</p></a>
+		<div>
+			<a href="u/Edit/@Html.DisplayFor(id => item.Id)"><p>Edit</p></a>
+		</div>
+		<div>
+			<a href="u/Delete/@Html.DisplayFor(id => item.Id)"><p>Delete</p></a>
+		</div>
 		<br>
 	}
 

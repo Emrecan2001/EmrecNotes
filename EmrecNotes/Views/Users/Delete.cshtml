@@ -1,0 +1,14 @@
+﻿@model EmrecNotes.Models.Note;
+
+@{
+	ViewData["Title"] = "Delete Note";
+}
+
+<div>
+	<h2>Do you really wish to delete "@Model.Title" ?</h2>
+	<form action="/u/deleted/@Model.Id" method="post"><button>Yes</button></form>
+	<a href="/u">
+		<button>No</button>
+	</a>
+
+</div>
