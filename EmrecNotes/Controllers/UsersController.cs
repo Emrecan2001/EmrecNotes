@@ -60,11 +60,17 @@ namespace EmrecNotes.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            // return note with specific Id
-            return View(await _context.Note.FirstOrDefaultAsync(n => n.Id == id));
+
+            var Note = await _context.Note.FirstOrDefaultAsync(n => n.Id == id);
+
+            if(Note == null)
+            {
+                return NotFound();
+            }
+
+            return View(Note);
         }
 
-        // check this out later
         [Route("edit/{id}")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Note UpdatedNote)
@@ -80,6 +86,38 @@ namespace EmrecNotes.Controllers
             Note.Content = UpdatedNote.Content;
 
             _context.Update(Note);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [Route("delete/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var Note = await _context.Note.FirstOrDefaultAsync(n => n.Id == id);
+
+            if(Note == null)
+            {
+                return NotFound();
+            }
+
+            return View(Note);
+        }
+
+        [Route("Deleted/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+
+            var Note = await _context.Note.FirstOrDefaultAsync(n => n.Id == id);
+
+            if(Note != null)
+            {
+                _context.Note.Remove(Note); // remove note data from database
+            }
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
