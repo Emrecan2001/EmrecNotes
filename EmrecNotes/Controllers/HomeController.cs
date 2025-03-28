@@ -45,7 +45,7 @@ namespace EmrecNotes.Controllers
             var account = await _context.Account.FirstOrDefaultAsync(u => u.Email == user.Email);
 
             // check if user exist or if the password is matching (nonhashed password, hashedpassword) / it's going to turn hash and check
-            if (account == null || !BCrypt.Net.BCrypt.Verify(user.PasswordHashed, account.PasswordHashed))
+            if (account == null || user.PasswordHashed == null || !BCrypt.Net.BCrypt.Verify(user.PasswordHashed, account.PasswordHashed))
             {   
                 Console.WriteLine("no account or wrong password");
                 return View();
@@ -111,6 +111,16 @@ namespace EmrecNotes.Controllers
 
             return RedirectToAction("Login");
             
+        }
+
+        [Route("logout")]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            // remove cookie when user log outs
+            Response.Cookies.Delete("BestCookieEver");
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
