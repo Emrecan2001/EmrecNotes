@@ -1,6 +1,6 @@
 # EmrecNotes 📝
 
-**EmrecNotes** is a lightweight, personal note-keeping web application built with **ASP.NET Core MVC**. It allows users to securely create, manage, and organize their notes with a clean and intuitive interface.
+**EmrecNotes** is a lightweight, personal note-keeping web application built with **ASP.NET Core MVC**. It allows users to create and manage their notes with a clean and intuitive interface.
 
 ## 🚀 Features
 
